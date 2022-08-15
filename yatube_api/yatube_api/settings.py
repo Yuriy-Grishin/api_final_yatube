@@ -1,12 +1,22 @@
 import os
+import environ
+from dotenv import load_dotenv
+env = environ.Env()
+environ.Env.read_env()
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'hhz7l-ltdismtf@bzyz+rple7*s*w$jak%whj@(@u0eok^f9k4'
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+SECRET_KEY = env(
+    'SECRET_KEY',
+    default="hhz7l-ltdismtf@bzyz+rple7*s*w$jak%whj@(@u0eok^f9k4)")
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env(
+    'ALLOWED_HOSTS', default='localhost').split(', ')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -18,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'posts',
+    'djoser'
 ]
 
 MIDDLEWARE = [
@@ -59,6 +70,9 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
@@ -67,9 +81,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+
 ]
 
 LANGUAGE_CODE = 'en-us'
@@ -86,8 +98,10 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-}
+REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': [
+                  'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+                  ],
+                  'DEFAULT_AUTHENTICATION_CLASSES': [
+                  'rest_framework_simplejwt.authentication.JWTAuthentication', ], }
+
+BLACKLIST_AFTER_ROTATION = False
