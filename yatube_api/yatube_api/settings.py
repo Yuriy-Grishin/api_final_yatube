@@ -9,11 +9,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = env(
-    'SECRET_KEY',
-    default="hhz7l-ltdismtf@bzyz+rple7*s*w$jak%whj@(@u0eok^f9k4)")
+SECRET_KEY = env("SECRET_KEY")
 
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env(
     'ALLOWED_HOSTS', default='localhost').split(', ')
