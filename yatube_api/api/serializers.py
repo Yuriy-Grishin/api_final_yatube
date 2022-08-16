@@ -25,7 +25,7 @@ class FollowSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if Follow.objects.filter(user=user,
                                  following__username=value).exists():
-            raise serializers.ValidationError("Подписка уже оформлена")
+            raise serializers.ValidationError('Подписка уже оформлена')
         return value
 
     def validate(self, value):
