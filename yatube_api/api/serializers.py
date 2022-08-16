@@ -7,8 +7,7 @@ class PostSerializer(serializers.ModelSerializer):
                                           read_only=True)
 
     class Meta:
-        fields = ('id', 'author',
-                  'pub_date', 'text', 'group')
+        fields = '__all__'
         model = Post
 
 
@@ -18,7 +17,7 @@ class FollowSerializer(serializers.ModelSerializer):
                                              queryset=User.objects.all())
 
     class Meta:
-        fields = ('user', 'following')
+        fields = '__all__'
         model = Follow
 
     def validate_following(self, value):
@@ -48,5 +47,5 @@ class CommentSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = ('id', 'title')
+        fields = '__all__'
         model = Group
